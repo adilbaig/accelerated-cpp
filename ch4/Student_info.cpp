@@ -1,3 +1,13 @@
+/*
+ * From pg 69
+ *
+ * Note that we include the header file, the file contains both definitions and
+ * declarations. This redundancy is harmless, and is actually a good idea. It
+ * gives the compiler the opportunity to check for consistency between the
+ * declarations and definitions.
+ *
+ */
+
 #include "Student_info.h"
 
 using std::istream;
