@@ -67,7 +67,7 @@ int main(void) {
 	cin >> midterm >> final;
 
 	//Notice how the two lines of string are automatically concatenated
-	cout << "Enter all your homework grades, "
+	cout << "Ent`er all your homework grades, "
 			"followed by end-of-file: ";
 
 	vector<double> homework;
