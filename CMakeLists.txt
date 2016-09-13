@@ -13,6 +13,6 @@ set(SOURCE_FILES
     ch4/Student_info.h
     ch5/remove.cpp
     accelerated-cpp.cpp
-    Makefile ch5/split-string.cpp)
+    Makefile ch5/split-string.cpp ch6/url.cpp)
 
 add_executable(accelerated_cpp ${SOURCE_FILES})

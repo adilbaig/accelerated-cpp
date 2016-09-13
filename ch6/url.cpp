@@ -6,10 +6,18 @@
 #include <vector>;
 #include <algorithm>;
 
-using std::string;
-using std::vector;
-using std::find_if;
-using std::find;
+/**
+ * You can either use every class type on one line ..
+ */
+//using std::string;
+//using std::vector;
+//using std::find_if;
+//using std::find;
+
+/**
+ * .. OR, just import the std namespace
+ */
+using namespace std;
 
 string::const_iterator url_beg(string::const_iterator b, string::const_iterator e)
 {
@@ -60,7 +68,7 @@ vector<string> find_urls(const string& s)
 }
 
 string::const_iterator
-url_end(string ::const_iterator b, string::const_iterator e)
+url_end(string::const_iterator b, string::const_iterator e)
 {
     return find_if(b, e, not_url_char);
 }
