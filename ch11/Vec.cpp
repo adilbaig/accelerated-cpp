@@ -36,6 +36,17 @@ public:
 	/**
 	 * An explicit ctor.
 	 * Needs to be called with (). Ex: Vec(5, 50);
+	 *
+	 * IMPORTANT : http://stackoverflow.com/questions/121162/what-does-the-explicit-keyword-in-c-mean
+	 * If a ctor does not have explicit, it can be used for auto-type-conversion when a param is called.
+	 *
+	 * ```
+	 * You have a MyString(int size) class with a constructor that constructs a
+	 * string of the given size. You have a function print(const MyString&),
+	 * and you call it with print(3). You expect it to print "3",
+	 * but it prints an empty string of length 3 instead.
+	 * ```
+	 * DAMN!
 	 */
 	explicit Vec(size_type n, const T& val = T()) {
 		create(n, val);
