@@ -7,6 +7,19 @@
 
 #include <stddef.h> // For size_t
 #include <cstddef> //For std::ptrdiff_t
+
+/**
+ * Why <memory> and not <memory.h>?
+ *
+ * <string> is the C++ standard library string header file containing std::string
+ * and its friends. <string.h> is a different header, from the C standard library,
+ * which has functions for manipulating C strings (null-terminated strings) and other
+ * related functions.
+ *
+ * The two are entirely different and unrelated. In C++ (as in C), a header file can
+ * have any extension. The C++ standard library headers have no extension; the C standard library
+ * headers have a .h extension.  .hpp or .hxx are also common.
+ */
 #include <memory>
 
 using namespace std;
