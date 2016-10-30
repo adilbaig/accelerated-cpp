@@ -7,6 +7,9 @@
 
 #include <stddef.h> // For size_t
 #include <cstddef> //For std::ptrdiff_t
+#include <memory>
+
+using namespace std;
 
 template<class T> class Vec {
 
@@ -105,12 +108,11 @@ public:
 	/**
 	 * Push a value into the end of the vector
 	 */
-	void push_back(const T& val)
-	{
-//		if(avail == limit) //grow if space is needed ..
-//			grow();
-//
-//		unchecked_append(val); // and push the value
+	void push_back(const T& val) {
+		if(avail == limit) //grow if space is needed ..
+			grow();
+
+		unchecked_append(val); // and push the value
 	}
 
 private:
@@ -118,12 +120,63 @@ private:
 	iterator avail; // point to one past the last constructed element.
 	iterator limit;
 
+	// Allocator
+	std::allocator<T> alloc;
+
 	void create() {
+		data = avail = limit = 0;
 	}
+
 	void create(size_type n, const T& val) {
+		data = alloc.allocate(n);
+		limit = avail = data + n;
+		uninitialized_fill(data, limit, val);
+	}
+
+	void create(const_iterator i, const_iterator j) {
+		data = alloc.allocate(j - i);
+		limit = avail = uninitialized_copy(i, j, data);
+	}
+
+	//Destroy elements in the array and free memory
+	void uncreate() {
+		if (data) {
+			//destroy, in reverse order, the elements that were constructed
+			iterator it = avail;
+			while (it != data)
+				alloc.destroy(--it);
+
+			//return all the space that was allocated
+			alloc.deallocate(data, limit - data);
+		}
+
+		//reset pointers to indidate the Vec is empty again
+		data = limit = avail = 0;
+	}
+
+	//support functions for push_back
+	void grow() {
+		//when growing, allocate twice as much space as is currently in use
+		size_type new_size = max(2 * (limit - data), ptrdiff_t(1));
+
+		//allocate new space and copy existing elements into the new space
+		iterator new_data = alloc.allocate(new_size);
+		iterator new_avail = uninitialized_copy(data, avail, new_data);
+
+		//return the old space
+		uncreate();
+
+		// reset pointers to point to the newly allocated space
+		data = new_data;
+		avail = new_avail;
+		limit = data + new_size;
+	}
+
+	// assumes avail points at allocated but uninitialized data
+	void unchecked_append(const T& val) {
+		alloc.construct(avail++, val);
 	}
 };
-
 
 /**
  * Note that the parameter is of type :
@@ -149,8 +202,5 @@ Vec<T>& Vec<T>::operator=(const Vec& rhs) {
 	}
 
 	return *this;
-}
-
-void uncreate() {
 }
 
