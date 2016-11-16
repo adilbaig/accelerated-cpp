@@ -139,6 +139,11 @@ public:
 		unchecked_append(val); // and push the value
 	}
 
+	void clear()
+	{
+		uncreate();
+	}
+
 private:
 	iterator data;
 	iterator avail; // point to one past the last constructed element.
