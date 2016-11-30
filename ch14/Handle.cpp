@@ -26,7 +26,7 @@ public:
     
 private:
     T* p;
-}
+};
 
 template <class T>
 Handle<T>& Handle<T>::operator=(const Handle& rhs)
