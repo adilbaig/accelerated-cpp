@@ -14,12 +14,14 @@ public:
         if (s.p)
             p = s.p->clone();
     }
+    Handle(T* t) : p(t) {
+    	cout << "Running this";
+    }
     
-    Handle& operator=(const Handle&);
     ~Handle() { delete p; }
-    
-    Handle(T* t) p(t) {}
-    
+
+    Handle& operator=(const Handle&);
+
     operator bool() const { return p; }
     T& operator*() const;
     T* operator->() const;
