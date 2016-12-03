@@ -18,7 +18,9 @@ public:
     	cout << "Running this";
     }
     
-    ~Handle() { delete p; }
+    ~Handle() {
+    	cout << "Destrot" ;
+    	delete p; }
 
     Handle& operator=(const Handle&);
 
