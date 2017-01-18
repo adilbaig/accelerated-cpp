@@ -5,42 +5,47 @@
  *      Author: adil
  */
 
-template <class T> class Handle
-{
-    
+template<class T> class Handle {
+
 public:
-    Handle(): p(0) {}
-    Handle(const Handle& s) : p(0) {
-        if (s.p)
-            p = s.p->clone();
-    }
-    Handle(T* t) : p(t) {
-    	cout << "Running this";
-    }
-    
-    ~Handle() {
-    	cout << "Destrot" ;
-    	delete p; }
+	Handle() :
+			p(0) {
+	}
+	Handle(const Handle& s) :
+			p(0) {
+		if (s.p)
+			p = s.p->clone();
+	}
+	Handle(T* t) :
+			p(t) {
+		cout << "Running this";
+	}
 
-    Handle& operator=(const Handle&);
+	~Handle() {
+		cout << "Destroy";
+		delete p;
+	}
 
-    operator bool() const { return p; }
-    T& operator*() const;
-    T* operator->() const;
-    
+	Handle& operator=(const Handle&);
+
+	operator bool() const {
+		return p;
+	}
+	T& operator*() const;
+	T* operator->() const;
+
 private:
-    T* p;
+	T* p;
 };
 
-template <class T>
-Handle<T>& Handle<T>::operator=(const Handle& rhs)
-{
-    if(&rhs != this) {
-        delete p;
-        p = rhs.p ? rhs.p->clone() : 0;
-    }
-    
-    return *this;
+template<class T>
+Handle<T>& Handle<T>::operator=(const Handle& rhs) {
+	if (&rhs != this) {
+		delete p;
+		p = rhs.p ? rhs.p->clone() : 0;
+	}
+
+	return *this;
 }
 
 /**
@@ -50,8 +55,7 @@ Handle<T>& Handle<T>::operator=(const Handle& rhs)
  * *handle == T
  */
 template<class T>
-T& Handle<T>::operator*() const
-{
+T& Handle<T>::operator*() const {
 	if (p)
 		return *p;
 
@@ -63,17 +67,15 @@ T& Handle<T>::operator*() const
  *
  * handle->y == (handle.operator->())->y
  */
-template <class T>
-T* Handle<T>::operator->() const
-{
+template<class T>
+T* Handle<T>::operator->() const {
 	if (p)
 		return p;
 
 	throw runtime_error("Unbound Handle");
 }
 
-template <class T>
-bool Handle<T>::operator bool()
-{
+template<class T>
+bool Handle<T>::operator bool() {
 	return (p != 0);
 }
